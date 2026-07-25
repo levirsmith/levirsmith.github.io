@@ -22,13 +22,21 @@
     }
   },
   "photos": [
-    { "file": "photo1.jpg", "caption": "portrait" },
-    { "file": "photo2.jpg", "caption": "mountain reflection" },
-    { "file": "photo3.jpg", "caption": "waterfall" },
-    { "file": "photo4.jpg", "caption": "fern detail" },
-    { "file": "photo5.jpg", "caption": "tree in mist" },
-    { "file": "photo6.jpeg", "caption": "foggy park" },
-    { "file": "photo7.jpeg", "caption": "beach surf" },
-    { "file": "photo8.jpeg", "caption": "alpine bovine" }
+    {
+      "file": "176cf019-e9bb-4910-9dd9-91a06d7f31b3_1_105_c.jpg",
+      "caption": "black-footed albatross at sunrise"
+    },
+    {
+      "file": "5d96b1ab-517f-4b9d-a7c6-9e7d32c5d89e_1_105_c.jpg",
+      "caption": "laysan albatross colony at sunset"
+    },
+    {
+      "file": "721f6ef9-9e90-49b6-b80e-adc39941f63c_1_105_c.jpg",
+      "caption": "white tern chick sleepy on a branch"
+    },
+    {
+      "file": "b88529b5-d7fe-4452-a8f9-e932657bcf05_1_105_c.jpg",
+      "caption": "rainforest frog in peru"
+    }
   ]
 }
