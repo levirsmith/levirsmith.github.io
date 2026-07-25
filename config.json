@@ -1,6 +1,6 @@
 {
   "site": {
-    "name": "Levi Smith",
+    "name": "levi r smith",
     "tagline": "photographs",
     "galleryTitle": "gallery",
     "galleryNote": "a collection of frames",
@@ -37,6 +37,14 @@
     {
       "file": "b88529b5-d7fe-4452-a8f9-e932657bcf05_1_105_c.jpg",
       "caption": "rainforest frog in peru"
+    },
+    {
+      "file": "dsc00088.jpg",
+      "caption": "santa cruz, ca"
+    },
+    {
+      "file": "0f7e58c2-7d53-4699-b828-0fe73b43a124_1_105_c.jpg",
+      "caption": "lizard in joshua tree"
     }
   ]
 }
