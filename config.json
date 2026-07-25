@@ -9,16 +9,16 @@
   },
   "theme": {
     "colors": {
-      "background": "#f6f4ee",
+      "background": "#dceff6",
       "text": "#1c1b18",
       "muted": "#8a8577",
       "accent": "#5c6b52",
-      "border": "#dcd8cb"
+      "border": "#91afdc"
     },
     "fonts": {
       "display": "Fraunces",
-      "body": "Inter",
-      "mono": "IBM Plex Mono"
+      "body": "Manrope",
+      "mono": "Courier Prime"
     }
   },
   "photos": [
