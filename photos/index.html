@@ -3,66 +3,33 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>gallery</title>
-  <link href="https://fonts.googleapis.com/css2?family=inter:wght@300;500&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'inter', sans-serif;
-      margin: 0;
-      background: #111;
-      color: #fff;
-      padding: 2rem;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-    p {
-      margin-bottom: 2rem;
-      color: #aaa;
-    }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-    }
-    .gallery img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      object-fit: cover;
-      transition: transform 0.2s;
-    }
-    .gallery img:hover {
-      transform: scale(1.02);
-    }
-    a.back {
-      display: inline-block;
-      margin-top: 2rem;
-      color: #0af;
-      text-decoration: none;
-    }
-    a.back:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <title data-suffix="gallery">gallery</title>
+  <link rel="stylesheet" href="../assets/css/site.css">
 </head>
 <body>
-  <h1>gallery</h1>
-  <p>levi smith</p>
+  <span class="corner corner--tl"></span>
+  <span class="corner corner--tr"></span>
+  <span class="corner corner--bl"></span>
+  <span class="corner corner--br"></span>
 
-  <div class="gallery">
-    <img src="../images/photo1.jpg" alt="portrait">
-    <img src="../images/photo2.jpg" alt="mountain reflection">
-    <img src="../images/photo3.jpg" alt="waterfall">
-    <img src="../images/photo4.jpg" alt="fern detail">
-    <img src="../images/photo5.jpg" alt="tree in mist">
-    <img src="../images/photo6.jpeg" alt="foggy park">
-    <img src="../images/photo7.jpeg" alt="beach surf">
-    <img src="../images/photo8.jpeg" alt="alpine bovine">
+  <main class="gallery-page">
+    <header class="gallery-header">
+      <h1 class="g-title" data-field="galleryTitle">gallery</h1>
+      <p class="g-note" data-field="galleryNote">a collection of frames</p>
+    </header>
+
+    <div class="grid" id="grid"></div>
+
+    <a href="../" class="back-link" data-field="backLabel">index</a>
+  </main>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close">close</button>
+    <img id="lightbox-img" alt="">
+    <p class="lightbox-caption" id="lightbox-caption"></p>
   </div>
 
-  <a href="/" class="back">← back to home</a>
+  <script src="../assets/js/fonts.js"></script>
+  <script src="../assets/js/site.js"></script>
 </body>
 </html>

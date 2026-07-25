@@ -1,0 +1,34 @@
+{
+  "site": {
+    "name": "Levi Smith",
+    "tagline": "photographs",
+    "galleryTitle": "gallery",
+    "galleryNote": "a collection of frames",
+    "enterLabel": "enter gallery",
+    "backLabel": "index"
+  },
+  "theme": {
+    "colors": {
+      "background": "#f6f4ee",
+      "text": "#1c1b18",
+      "muted": "#8a8577",
+      "accent": "#5c6b52",
+      "border": "#dcd8cb"
+    },
+    "fonts": {
+      "display": "Fraunces",
+      "body": "Inter",
+      "mono": "IBM Plex Mono"
+    }
+  },
+  "photos": [
+    { "file": "photo1.jpg", "caption": "portrait" },
+    { "file": "photo2.jpg", "caption": "mountain reflection" },
+    { "file": "photo3.jpg", "caption": "waterfall" },
+    { "file": "photo4.jpg", "caption": "fern detail" },
+    { "file": "photo5.jpg", "caption": "tree in mist" },
+    { "file": "photo6.jpeg", "caption": "foggy park" },
+    { "file": "photo7.jpeg", "caption": "beach surf" },
+    { "file": "photo8.jpeg", "caption": "alpine bovine" }
+  ]
+}
