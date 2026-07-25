@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-suffix="gallery">gallery</title>
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+  <span class="corner corner--tl"></span>
+  <span class="corner corner--tr"></span>
+  <span class="corner corner--bl"></span>
+  <span class="corner corner--br"></span>
+
+  <main class="gallery-page">
+    <header class="gallery-header">
+      <h1 class="g-title" data-field="galleryTitle">gallery</h1>
+      <p class="g-note" data-field="galleryNote">a collection of frames</p>
+    </header>
+
+    <div class="grid" id="grid"></div>
+
+    <a href="../" class="back-link" data-field="backLabel">index</a>
+  </main>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close">close</button>
+    <img id="lightbox-img" alt="">
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+  </div>
+
+  <script src="../assets/js/fonts.js"></script>
+  <script src="../assets/js/site.js"></script>
+</body>
+</html>
