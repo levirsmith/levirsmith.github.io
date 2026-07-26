@@ -1,19 +1,19 @@
 {
   "site": {
-    "name": "Levi Smith",
+    "name": "levi smith",
     "tagline": "photographs",
     "galleryTitle": "gallery",
-    "galleryNote": "a collection of frames",
+    "galleryNote": "some pics",
     "enterLabel": "enter gallery",
     "homeLabel": "home"
   },
   "theme": {
     "colors": {
-      "background": "#f6f4ee",
+      "background": "#e5fcfd",
       "text": "#1c1b18",
       "muted": "#8a8577",
       "accent": "#5c6b52",
-      "border": "#dcd8cb"
+      "border": "#bedcd2"
     },
     "fonts": {
       "display": "Fraunces",
