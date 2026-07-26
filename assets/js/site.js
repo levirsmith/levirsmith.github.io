@@ -29,6 +29,7 @@ function applyTheme(theme) {
   root.setProperty("--font-display", `"${theme.fonts.display}", serif`);
   root.setProperty("--font-body", `"${theme.fonts.body}", sans-serif`);
   root.setProperty("--font-mono", `"${theme.fonts.mono}", monospace`);
+  root.setProperty("--label-case", (theme.text && theme.text.labelCase) || "none");
   loadGoogleFonts([theme.fonts.display, theme.fonts.body, theme.fonts.mono]);
 }
 
