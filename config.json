@@ -10,7 +10,7 @@
   "theme": {
     "colors": {
       "background": "#e5fcfd",
-      "text": "#7f592a",
+      "text": "#000000",
       "muted": "#8a8577",
       "accent": "#5c6b52",
       "border": "#bedcd2"
