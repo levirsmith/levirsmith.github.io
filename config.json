@@ -1,24 +1,27 @@
 {
   "site": {
-    "name": "levi smith",
+    "name": "Levi Smith",
     "tagline": "photographs",
     "galleryTitle": "gallery",
-    "galleryNote": "some snaps",
+    "galleryNote": "a collection of frames",
     "enterLabel": "enter gallery",
-    "backLabel": "index"
+    "homeLabel": "home"
   },
   "theme": {
     "colors": {
-      "background": "#dceff6",
+      "background": "#f6f4ee",
       "text": "#1c1b18",
       "muted": "#8a8577",
       "accent": "#5c6b52",
-      "border": "#abcfdc"
+      "border": "#dcd8cb"
     },
     "fonts": {
       "display": "Fraunces",
-      "body": "Manrope",
-      "mono": "JetBrains Mono"
+      "body": "Inter",
+      "mono": "IBM Plex Mono"
+    },
+    "text": {
+      "labelCase": "none"
     }
   },
   "photos": [

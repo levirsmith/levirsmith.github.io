@@ -174,16 +174,17 @@ function populateFontSelects() {
 }
 
 function populateForm() {
-  ["name", "tagline", "galleryTitle", "galleryNote", "enterLabel", "backLabel"].forEach(k => {
+  ["name", "tagline", "galleryTitle", "galleryNote", "enterLabel", "homeLabel"].forEach(k => {
     $(`#f-${k}`).value = site[k] || "";
   });
   ["background", "text", "muted", "accent", "border"].forEach(k => {
     $(`#c-${k}`).value = theme.colors[k] || "#000000";
   });
+  $("#f-label-case").value = (theme.text && theme.text.labelCase) || "none";
 }
 
 function readFormIntoState() {
-  ["name", "tagline", "galleryTitle", "galleryNote", "enterLabel", "backLabel"].forEach(k => {
+  ["name", "tagline", "galleryTitle", "galleryNote", "enterLabel", "homeLabel"].forEach(k => {
     site[k] = $(`#f-${k}`).value;
   });
   ["background", "text", "muted", "accent", "border"].forEach(k => {
@@ -192,6 +193,7 @@ function readFormIntoState() {
   theme.fonts.display = $("#f-font-display").value;
   theme.fonts.body = $("#f-font-body").value;
   theme.fonts.mono = $("#f-font-mono").value;
+  theme.text = { labelCase: $("#f-label-case").value };
 }
 
 // ---------- photo list ----------
