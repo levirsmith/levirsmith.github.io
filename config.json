@@ -17,8 +17,8 @@
     },
     "fonts": {
       "display": "Fraunces",
-      "body": "Inter",
-      "mono": "IBM Plex Mono"
+      "body": "Manrope",
+      "mono": "JetBrains Mono"
     },
     "text": {
       "labelCase": "none"
