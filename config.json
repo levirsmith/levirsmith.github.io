@@ -77,23 +77,43 @@
       "links": []
     }
   },
-  "collections": [],
+  "collections": [
+    {
+      "id": "midway",
+      "title": "midway atoll",
+      "description": ""
+    },
+    {
+      "id": "bioko",
+      "title": "bioko",
+      "description": ""
+    },
+    {
+      "id": "peru",
+      "title": "amazonia, peru",
+      "description": ""
+    }
+  ],
   "photos": [
     {
       "file": "176cf019-e9bb-4910-9dd9-91a06d7f31b3_1_105_c.jpg",
-      "caption": "black-footed albatross at sunrise"
+      "caption": "black-footed albatross at sunrise",
+      "collection": "midway"
     },
     {
       "file": "5d96b1ab-517f-4b9d-a7c6-9e7d32c5d89e_1_105_c.jpg",
-      "caption": "laysan albatross colony at sunset"
+      "caption": "laysan albatross colony at sunset",
+      "collection": "midway"
     },
     {
       "file": "721f6ef9-9e90-49b6-b80e-adc39941f63c_1_105_c.jpg",
-      "caption": "white tern chick sleepy on a branch"
+      "caption": "white tern chick sleepy on a branch",
+      "collection": "midway"
     },
     {
       "file": "b88529b5-d7fe-4452-a8f9-e932657bcf05_1_105_c.jpg",
-      "caption": "rainforest frog in peru"
+      "caption": "rainforest frog in peru",
+      "collection": "peru"
     },
     {
       "file": "dsc00088.jpg",
@@ -109,11 +129,13 @@
     },
     {
       "file": "3295d02a-f0f6-4cba-95a3-9767e0115b24_1_105_c.jpg",
-      "caption": "sea turtle tracks on bioko"
+      "caption": "sea turtle tracks on bioko",
+      "collection": "bioko"
     },
     {
       "file": "6286586b-9d34-4993-a808-3763e829204d_1_105_c.jpg",
-      "caption": "friendly skink on bioko"
+      "caption": "friendly skink on bioko",
+      "collection": "bioko"
     }
   ]
 }
