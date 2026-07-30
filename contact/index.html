@@ -3,33 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title data-suffix="gallery">gallery</title>
+  <title data-suffix="contact">contact</title>
   <link rel="stylesheet" href="../assets/css/site.css">
 </head>
-<body data-depth="1" data-page="gallery">
+<!-- hidden until site.js confirms this page is enabled in config.json,
+     so a disabled page never flashes before redirecting home -->
+<body data-depth="1" data-page="contact" hidden>
   <span class="corner corner--tl"></span>
   <span class="corner corner--tr"></span>
   <span class="corner corner--bl"></span>
   <span class="corner corner--br"></span>
 
-  <main class="gallery-page">
+  <main class="text-page">
     <a href="../" class="home-link"><span aria-hidden="true">&#8592;</span> <span data-field="homeLabel">home</span></a>
 
-    <header class="gallery-header">
-      <h1 class="g-title" data-field="galleryTitle">gallery</h1>
-      <p class="g-note" data-field="galleryNote">a collection of frames</p>
-    </header>
-
-    <div id="gallery"></div>
+    <h1 class="p-title" id="page-title">contact</h1>
+    <div class="p-body" id="page-body"></div>
 
     <nav class="site-nav" id="site-nav" hidden></nav>
   </main>
-
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lightbox-close">close</button>
-    <img id="lightbox-img" alt="">
-    <p class="lightbox-caption" id="lightbox-caption"></p>
-  </div>
 
   <script src="../assets/js/fonts.js"></script>
   <script src="../assets/js/site.js"></script>

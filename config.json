@@ -18,12 +18,66 @@
     "fonts": {
       "display": "Fraunces",
       "body": "Manrope",
-      "mono": "JetBrains Mono"
+      "mono": "JetBrains Mono",
+      "displayWeight": 500,
+      "displayItalic": true,
+      "bodyWeight": 400,
+      "bodyItalic": false,
+      "monoWeight": 400,
+      "monoItalic": false
     },
     "text": {
-      "labelCase": "none"
+      "labelCase": "none",
+      "dateFormat": "monthYear",
+      "nameSize": 4.5,
+      "taglineSize": 0.8,
+      "galleryTitleSize": 3,
+      "labelSize": 0.75,
+      "captionSize": 0.68,
+      "bodySize": 1,
+      "labelTracking": 0.18,
+      "headingTracking": -0.01
+    },
+    "layout": {
+      "gridMinWidth": 260,
+      "gridGap": 2,
+      "aspectRatio": "4 / 5",
+      "maxWidth": 0,
+      "pagePaddingTop": 6,
+      "pagePaddingSide": 6
+    },
+    "style": {
+      "radiusGrid": 12,
+      "radiusFrame": 8,
+      "radiusImage": 8,
+      "borderWidth": 1,
+      "hoverZoom": 1.04,
+      "transitionSpeed": 0.6,
+      "cornerSize": 18,
+      "showCorners": true,
+      "captionMode": "hover",
+      "showNumbers": true,
+      "lightbox": true
     }
   },
+  "pages": {
+    "about": {
+      "enabled": false,
+      "navLabel": "about",
+      "title": "about",
+      "body": "",
+      "portrait": ""
+    },
+    "contact": {
+      "enabled": false,
+      "navLabel": "contact",
+      "title": "contact",
+      "intro": "",
+      "email": "",
+      "links": []
+    }
+  },
+  "collections": [],
   "photos": [
     {
       "file": "176cf019-e9bb-4910-9dd9-91a06d7f31b3_1_105_c.jpg",

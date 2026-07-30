@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;1,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="studio.css">
+</head>
+<body>
+
+<div class="admin">
+  <header class="admin-head">
+    <h1>studio</h1>
+    <p>Everything here edits <code>config.json</code> and the <code>images/</code> folder in your GitHub repo. Nothing publishes until you press <strong>Publish changes</strong>.</p>
+  </header>
+
+  <!-- CONNECTION -->
+  <section class="panel" id="panel-connect">
+    <h2>1. Connect to GitHub</h2>
+    <p class="hint">
+      Create a token at
+      <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a>
+      scoped only to this repository, with <strong>Contents: Read and write</strong> permission. The token is stored in your browser only — never committed to the repo.
+    </p>
+    <div class="row">
+      <label>Repo owner
+        <input id="f-owner" type="text" placeholder="levirsmith">
+      </label>
+      <label>Repo name
+        <input id="f-repo" type="text" placeholder="levirsmith.github.io">
+      </label>
+      <label>Branch
+        <input id="f-branch" type="text" placeholder="main" value="main">
+      </label>
+    </div>
+    <label class="full">Personal access token
+      <input id="f-token" type="password" placeholder="github_pat_...">
+    </label>
+    <div class="actions">
+      <button id="btn-connect" class="btn btn-primary">Connect</button>
+      <button id="btn-disconnect" class="btn btn-ghost" hidden>Forget token</button>
+      <span id="connect-status" class="status"></span>
+    </div>
+  </section>
+
+  <div id="editor" hidden>
+
+    <!-- LIVE PREVIEW -->
+    <section class="panel">
+      <h2>Preview</h2>
+      <p class="hint">Updates as you change colors, fonts and shape below. A quick read on how the combination feels — not a pixel-perfect copy of the site.</p>
+      <div class="preview" id="preview">
+        <div class="preview-name" id="pv-name">levi smith</div>
+        <div class="preview-tagline" id="pv-tagline">photographs</div>
+        <div class="preview-grid">
+          <div class="preview-frame"><span class="preview-cap">caption</span></div>
+          <div class="preview-frame"></div>
+          <div class="preview-frame"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEXT -->
+    <section class="panel">
+      <h2>2. Site text</h2>
+      <div class="row">
+        <label>Name
+          <input id="f-name" type="text">
+        </label>
+        <label>Tagline (under name)
+          <input id="f-tagline" type="text">
+        </label>
+      </div>
+      <div class="row">
+        <label>Gallery title
+          <input id="f-galleryTitle" type="text">
+        </label>
+        <label>Gallery note
+          <input id="f-galleryNote" type="text">
+        </label>
+      </div>
+      <div class="row">
+        <label>"Enter gallery" link text
+          <input id="f-enterLabel" type="text">
+        </label>
+        <label>"Home" link text
+          <input id="f-homeLabel" type="text">
+        </label>
+      </div>
+    </section>
+
+    <!-- COLORS -->
+    <section class="panel">
+      <h2>3. Colors</h2>
+      <div class="row row-colors">
+        <label>Background <input id="c-background" type="color"></label>
+        <label>Text <input id="c-text" type="color"></label>
+        <label>Muted <input id="c-muted" type="color"></label>
+        <label>Accent <input id="c-accent" type="color"></label>
+        <label>Border <input id="c-border" type="color"></label>
+      </div>
+    </section>
+
+    <!-- FONTS -->
+    <section class="panel">
+      <h2>4. Fonts</h2>
+      <p class="hint">Any of the 60+ most popular Google Fonts, for each group of text. Weight options change to match what each family actually ships; italic is disabled for families with no true italic.</p>
+
+      <h3 class="sub">Display — your name and page headings</h3>
+      <div class="row row-font">
+        <label>Family <select id="f-font-display"></select></label>
+        <label>Weight <select id="f-weight-display"></select></label>
+        <label class="check"><input id="f-italic-display" type="checkbox"> Italic</label>
+      </div>
+
+      <h3 class="sub">Body — paragraphs on About and Contact</h3>
+      <div class="row row-font">
+        <label>Family <select id="f-font-body"></select></label>
+        <label>Weight <select id="f-weight-body"></select></label>
+        <label class="check"><input id="f-italic-body" type="checkbox"> Italic</label>
+      </div>
+
+      <h3 class="sub">Caption — labels, captions, small links</h3>
+      <div class="row row-font">
+        <label>Family <select id="f-font-mono"></select></label>
+        <label>Weight <select id="f-weight-mono"></select></label>
+        <label class="check"><input id="f-italic-mono" type="checkbox"> Italic</label>
+      </div>
+    </section>
+
+    <!-- TYPOGRAPHY -->
+    <section class="panel">
+      <h2>5. Typography</h2>
+      <div class="row">
+        <label>Label &amp; caption case
+          <select id="f-label-case">
+            <option value="none">as typed (e.g. lowercase)</option>
+            <option value="uppercase">UPPERCASE</option>
+            <option value="capitalize">Capitalize Each Word</option>
+            <option value="lowercase">all lowercase</option>
+          </select>
+        </label>
+        <label>Photo date format
+          <select id="f-date-format">
+            <option value="monthYear">march 2024</option>
+            <option value="year">2024</option>
+            <option value="full">march 15, 2024</option>
+            <option value="numeric">2024-03-15</option>
+          </select>
+        </label>
+      </div>
+      <div class="row row-3">
+        <label>Name size <span class="unit">rem</span>
+          <input id="f-size-name" type="number" step="0.1" min="1" max="12">
+        </label>
+        <label>Tagline size <span class="unit">rem</span>
+          <input id="f-size-tagline" type="number" step="0.05" min="0.4" max="3">
+        </label>
+        <label>Gallery title size <span class="unit">rem</span>
+          <input id="f-size-gtitle" type="number" step="0.1" min="1" max="8">
+        </label>
+      </div>
+      <div class="row row-3">
+        <label>Label size <span class="unit">rem</span>
+          <input id="f-size-label" type="number" step="0.05" min="0.4" max="2">
+        </label>
+        <label>Caption size <span class="unit">rem</span>
+          <input id="f-size-caption" type="number" step="0.02" min="0.4" max="2">
+        </label>
+        <label>Body text size <span class="unit">rem</span>
+          <input id="f-size-body" type="number" step="0.05" min="0.7" max="2">
+        </label>
+      </div>
+      <div class="row">
+        <label>Label letter spacing <span class="unit">em</span>
+          <input id="f-ls-label" type="number" step="0.01" min="-0.1" max="0.6">
+        </label>
+        <label>Heading letter spacing <span class="unit">em</span>
+          <input id="f-ls-heading" type="number" step="0.005" min="-0.1" max="0.3">
+        </label>
+      </div>
+    </section>
+
+    <!-- LAYOUT -->
+    <section class="panel">
+      <h2>6. Layout</h2>
+      <div class="row row-3">
+        <label>Min column width <span class="unit">px</span>
+          <input id="f-grid-min" type="number" step="10" min="120" max="800">
+        </label>
+        <label>Gap between photos <span class="unit">px</span>
+          <input id="f-grid-gap" type="number" step="1" min="0" max="60">
+        </label>
+        <label>Photo shape
+          <select id="f-aspect">
+            <option value="4 / 5">portrait (4:5)</option>
+            <option value="1 / 1">square (1:1)</option>
+            <option value="3 / 2">landscape (3:2)</option>
+            <option value="16 / 9">wide (16:9)</option>
+            <option value="2 / 3">tall (2:3)</option>
+            <option value="auto">original proportions</option>
+          </select>
+        </label>
+      </div>
+      <div class="row row-3">
+        <label>Max page width <span class="unit">px, 0 = full</span>
+          <input id="f-max-width" type="number" step="20" min="0" max="2400">
+        </label>
+        <label>Top padding <span class="unit">rem</span>
+          <input id="f-pad-top" type="number" step="0.5" min="0" max="20">
+        </label>
+        <label>Side padding <span class="unit">vw</span>
+          <input id="f-pad-side" type="number" step="0.5" min="0" max="30">
+        </label>
+      </div>
+    </section>
+
+    <!-- STYLE -->
+    <section class="panel">
+      <h2>7. Shape &amp; motion</h2>
+      <div class="row row-3">
+        <label>Grid corner radius <span class="unit">px</span>
+          <input id="f-radius-grid" type="number" step="1" min="0" max="60">
+        </label>
+        <label>Frame corner radius <span class="unit">px</span>
+          <input id="f-radius-frame" type="number" step="1" min="0" max="60">
+        </label>
+        <label>Image corner radius <span class="unit">px</span>
+          <input id="f-radius-image" type="number" step="1" min="0" max="60">
+        </label>
+      </div>
+      <div class="row row-3">
+        <label>Border width <span class="unit">px</span>
+          <input id="f-border-width" type="number" step="1" min="0" max="10">
+        </label>
+        <label>Hover zoom <span class="unit">1 = none</span>
+          <input id="f-hover-zoom" type="number" step="0.01" min="1" max="1.5">
+        </label>
+        <label>Transition speed <span class="unit">seconds</span>
+          <input id="f-transition" type="number" step="0.05" min="0" max="3">
+        </label>
+      </div>
+      <div class="row row-3">
+        <label>Caption display
+          <select id="f-caption-mode">
+            <option value="hover">on hover, over photo</option>
+            <option value="always">always, over photo</option>
+            <option value="below">always, below photo</option>
+          </select>
+        </label>
+        <label>Corner tick size <span class="unit">px</span>
+          <input id="f-corner-size" type="number" step="1" min="4" max="60">
+        </label>
+        <label class="check"><input id="f-show-corners" type="checkbox"> Show corner ticks</label>
+      </div>
+      <div class="row">
+        <label class="check"><input id="f-show-numbers" type="checkbox"> Show photo numbers</label>
+        <label class="check"><input id="f-lightbox" type="checkbox"> Click photo to enlarge</label>
+      </div>
+    </section>
+
+    <!-- PAGES -->
+    <section class="panel">
+      <h2>8. About &amp; Contact pages</h2>
+      <p class="hint">These pages stay hidden until you switch them on. When enabled, a link appears on every page.</p>
+
+      <h3 class="sub">About</h3>
+      <div class="row">
+        <label class="check"><input id="f-about-enabled" type="checkbox"> Enable the About page</label>
+        <label>Nav link text
+          <input id="f-about-navLabel" type="text" placeholder="about">
+        </label>
+      </div>
+      <div class="row">
+        <label>Page heading
+          <input id="f-about-title" type="text" placeholder="about">
+        </label>
+        <label>Portrait image <span class="unit">optional, a filename from images/</span>
+          <input id="f-about-portrait" type="text" placeholder="dsc00088.jpg">
+        </label>
+      </div>
+      <label class="full">Text <span class="unit">leave a blank line between paragraphs</span>
+        <textarea id="f-about-body" rows="7"></textarea>
+      </label>
+
+      <h3 class="sub">Contact</h3>
+      <div class="row">
+        <label class="check"><input id="f-contact-enabled" type="checkbox"> Enable the Contact page</label>
+        <label>Nav link text
+          <input id="f-contact-navLabel" type="text" placeholder="contact">
+        </label>
+      </div>
+      <div class="row">
+        <label>Page heading
+          <input id="f-contact-title" type="text" placeholder="contact">
+        </label>
+        <label>Email address
+          <input id="f-contact-email" type="text" placeholder="you@example.com">
+        </label>
+      </div>
+      <label class="full">Intro text
+        <textarea id="f-contact-intro" rows="4"></textarea>
+      </label>
+      <h3 class="sub">Links</h3>
+      <ul id="link-list" class="mini-list"></ul>
+      <button id="btn-add-link" class="btn btn-ghost btn-small" type="button">+ Add link</button>
+    </section>
+
+    <!-- COLLECTIONS -->
+    <section class="panel">
+      <h2>9. Collections</h2>
+      <p class="hint">Group photos by place or project. Each collection becomes a titled section on the gallery page, in the order listed here. Photos you don't assign appear in an untitled section at the end. With no collections at all, the gallery stays one plain grid.</p>
+      <ul id="collection-list" class="mini-list"></ul>
+      <button id="btn-add-collection" class="btn btn-ghost btn-small" type="button">+ Add collection</button>
+    </section>
+
+    <!-- PHOTOS -->
+    <section class="panel">
+      <h2>10. Photos</h2>
+      <p class="hint">Drag to reorder. New uploads are compressed automatically before publishing. Date and location are optional and appear under the caption.</p>
+
+      <div id="dropzone" class="dropzone">
+        <span>Drop photos here, or click to choose files</span>
+        <input id="f-upload" type="file" accept="image/*" multiple hidden>
+      </div>
+
+      <ul id="photo-list" class="photo-list"></ul>
+    </section>
+
+    <!-- PUBLISH -->
+    <section class="panel panel-publish">
+      <h2>11. Publish</h2>
+      <button id="btn-publish" class="btn btn-primary btn-large">Publish changes</button>
+      <div id="publish-log" class="log"></div>
+    </section>
+
+  </div>
+</div>
+
+<script src="../assets/js/fonts.js"></script>
+<script src="studio.js"></script>
+</body>
+</html>
