@@ -92,6 +92,11 @@
       "id": "peru",
       "title": "amazonia, peru",
       "description": ""
+    },
+    {
+      "id": "others",
+      "title": "others",
+      "description": ""
     }
   ],
   "photos": [
