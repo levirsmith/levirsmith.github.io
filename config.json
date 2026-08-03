@@ -122,15 +122,18 @@
     },
     {
       "file": "dsc00088.jpg",
-      "caption": "santa cruz, ca"
+      "caption": "santa cruz, ca",
+      "collection": "others"
     },
     {
       "file": "0f7e58c2-7d53-4699-b828-0fe73b43a124_1_105_c.jpg",
-      "caption": "lizard in joshua tree"
+      "caption": "lizard in joshua tree",
+      "collection": "others"
     },
     {
       "file": "a3d98a9b-44bb-4cb8-8255-fee8a029afa2_1_105_c.jpg",
-      "caption": "sea otter on the california coast"
+      "caption": "sea otter on the california coast",
+      "collection": "others"
     },
     {
       "file": "3295d02a-f0f6-4cba-95a3-9767e0115b24_1_105_c.jpg",
@@ -141,6 +144,11 @@
       "file": "6286586b-9d34-4993-a808-3763e829204d_1_105_c.jpg",
       "caption": "friendly skink on bioko",
       "collection": "bioko"
+    },
+    {
+      "file": "7f8099c2-02e9-4271-b2d4-a37cb0034e6a_1_105_c.jpg",
+      "caption": "chipmunk in colorado",
+      "collection": "others"
     }
   ]
 }
