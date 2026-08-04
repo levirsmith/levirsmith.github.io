@@ -112,12 +112,12 @@
     },
     {
       "file": "721f6ef9-9e90-49b6-b80e-adc39941f63c_1_105_c.jpg",
-      "caption": "white tern chick sleepy on a branch",
+      "caption": "tern chick sleepy on a branch",
       "collection": "midway"
     },
     {
       "file": "b88529b5-d7fe-4452-a8f9-e932657bcf05_1_105_c.jpg",
-      "caption": "rainforest frog in peru",
+      "caption": "rainforest frog",
       "collection": "peru"
     },
     {
@@ -137,18 +137,24 @@
     },
     {
       "file": "3295d02a-f0f6-4cba-95a3-9767e0115b24_1_105_c.jpg",
-      "caption": "sea turtle tracks on bioko",
+      "caption": "sea turtle tracks",
       "collection": "bioko"
     },
     {
       "file": "6286586b-9d34-4993-a808-3763e829204d_1_105_c.jpg",
-      "caption": "friendly skink on bioko",
+      "caption": "friendly skink",
       "collection": "bioko"
     },
     {
       "file": "7f8099c2-02e9-4271-b2d4-a37cb0034e6a_1_105_c.jpg",
       "caption": "chipmunk in colorado",
       "collection": "elsewhere"
+    },
+    {
+      "file": "a35a97e1-4fa7-495c-9e2b-6d97b904de3d_1_105_c.jpg",
+      "caption": "hummingbird",
+      "collection": "peru",
+      "date": "2019"
     }
   ]
 }
