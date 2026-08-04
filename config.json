@@ -18,7 +18,7 @@
     "fonts": {
       "display": "Fraunces",
       "body": "Manrope",
-      "mono": "JetBrains Mono",
+      "mono": "Figtree",
       "displayWeight": 500,
       "displayItalic": true,
       "bodyWeight": 400,
@@ -28,7 +28,7 @@
     },
     "text": {
       "labelCase": "none",
-      "dateFormat": "monthYear",
+      "dateFormat": "year",
       "nameSize": 4.5,
       "taglineSize": 0.8,
       "galleryTitleSize": 3,
@@ -54,9 +54,9 @@
       "hoverZoom": 1.04,
       "transitionSpeed": 0.6,
       "cornerSize": 18,
-      "showCorners": true,
+      "showCorners": false,
       "captionMode": "hover",
-      "showNumbers": true,
+      "showNumbers": false,
       "lightbox": true
     }
   },
@@ -94,8 +94,8 @@
       "description": ""
     },
     {
-      "id": "others",
-      "title": "others",
+      "id": "elsewhere",
+      "title": "elsewhere",
       "description": ""
     }
   ],
@@ -123,17 +123,17 @@
     {
       "file": "dsc00088.jpg",
       "caption": "santa cruz, ca",
-      "collection": "others"
+      "collection": "elsewhere"
     },
     {
       "file": "0f7e58c2-7d53-4699-b828-0fe73b43a124_1_105_c.jpg",
       "caption": "lizard in joshua tree",
-      "collection": "others"
+      "collection": "elsewhere"
     },
     {
       "file": "a3d98a9b-44bb-4cb8-8255-fee8a029afa2_1_105_c.jpg",
       "caption": "sea otter on the california coast",
-      "collection": "others"
+      "collection": "elsewhere"
     },
     {
       "file": "3295d02a-f0f6-4cba-95a3-9767e0115b24_1_105_c.jpg",
@@ -148,7 +148,7 @@
     {
       "file": "7f8099c2-02e9-4271-b2d4-a37cb0034e6a_1_105_c.jpg",
       "caption": "chipmunk in colorado",
-      "collection": "others"
+      "collection": "elsewhere"
     }
   ]
 }
