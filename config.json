@@ -43,7 +43,7 @@
       "gridGap": 2,
       "aspectRatio": "4 / 5",
       "maxWidth": 0,
-      "pagePaddingTop": 44,
+      "pagePaddingTop": 6,
       "pagePaddingSide": 6
     },
     "style": {
