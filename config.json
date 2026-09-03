@@ -47,10 +47,10 @@
       "pagePaddingSide": 6
     },
     "style": {
-      "radiusGrid": 12,
-      "radiusFrame": 8,
-      "radiusImage": 8,
-      "borderWidth": 1,
+      "radiusGrid": 13,
+      "radiusFrame": 9,
+      "radiusImage": 9,
+      "borderWidth": 2,
       "hoverZoom": 1.04,
       "transitionSpeed": 0.6,
       "cornerSize": 18,
