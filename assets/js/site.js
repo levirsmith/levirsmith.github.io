@@ -177,14 +177,22 @@ function metaLine(photo, dateFormat) {
 
 // ---------- gallery ----------
 
-function frameHtml(photo, globalIndex, dateFormat) {
-  const meta = metaLine(photo, dateFormat);
+// The notice lives inside the caption bar but sits just above its top edge, so
+// it rests at the photo's bottom-right corner while the bar is hidden, and rides
+// up with the bar when it slides in instead of being covered by it.
+//
+// Photos marked `stamped` already carry the notice in their pixels. The grid
+// tile usually crops that corner off, so the on-page notice stays as a stand-in
+// and is only removed where the stamp itself shows (see hideOverlayWhereStampShows).
+function frameHtml(photo, globalIndex, opts) {
+  const meta = metaLine(photo, opts.dateFormat);
   return `
-    <figure class="frame" data-index="${globalIndex}">
+    <figure class="frame" data-index="${globalIndex}"${photo.stamped ? " data-stamped" : ""}>
       <div class="frame-img-wrap">
         <img src="${escapeAttr(imagePath(photo.file))}" alt="${escapeAttr(photo.caption || "")}" loading="lazy">
       </div>
       <figcaption class="label">
+        ${opts.copyright ? `<span class="copyright" aria-hidden="true">${escapeHtml(opts.copyright)}</span>` : ""}
         <span class="label-main">
           <span class="cap">${escapeHtml(photo.caption || "")}</span>
           ${meta ? `<span class="meta">${escapeHtml(meta)}</span>` : ""}
@@ -198,45 +206,56 @@ function frameHtml(photo, globalIndex, dateFormat) {
 // titled sections in the order the collections are defined, with anything
 // unassigned trailing in an untitled section. With no collections defined the
 // result is a single plain grid, exactly as before collections existed.
-function renderGallery(photos, collections, dateFormat) {
+//
+// Returns the photos in render order plus the groups the lightbox steps through:
+// one per section, or a single group for the plain grid.
+function renderGallery(photos, collections, opts) {
   const host = document.getElementById("gallery");
-  if (!host) return [];
+  const none = { order: [], groups: [] };
+  if (!host) return none;
 
   if (!photos || photos.length === 0) {
     host.innerHTML = '<p class="empty-state">no photographs yet</p>';
-    return [];
+    return none;
   }
 
   const defined = Array.isArray(collections) ? collections.filter(c => c && c.id) : [];
-  const order = [];
-
-  if (defined.length === 0) {
-    photos.forEach(p => order.push(p));
-    host.innerHTML = `<div class="grid">${
-      photos.map((p, i) => frameHtml(p, i, dateFormat)).join("")
-    }</div>`;
-    return order;
-  }
-
-  const knownIds = new Set(defined.map(c => c.id));
   const sections = [];
 
-  defined.forEach(col => {
-    const inCol = photos.filter(p => p.collection === col.id);
-    if (inCol.length === 0) return;
-    sections.push({ collection: col, photos: inCol });
-  });
+  if (defined.length === 0) {
+    sections.push({ collection: null, photos: photos.slice() });
+  } else {
+    const knownIds = new Set(defined.map(c => c.id));
+    defined.forEach(col => {
+      const inCol = photos.filter(p => p.collection === col.id);
+      if (inCol.length) sections.push({ collection: col, photos: inCol });
+    });
+    const loose = photos.filter(p => !p.collection || !knownIds.has(p.collection));
+    if (loose.length) sections.push({ collection: null, photos: loose });
+  }
 
-  const loose = photos.filter(p => !p.collection || !knownIds.has(p.collection));
-  if (loose.length > 0) sections.push({ collection: null, photos: loose });
-
+  const order = [];
+  const groups = [];
   let html = "";
+
   sections.forEach(sec => {
+    const indices = [];
     const frames = sec.photos.map(p => {
       const idx = order.length;
       order.push(p);
-      return frameHtml(p, idx, dateFormat);
+      indices.push(idx);
+      return frameHtml(p, idx, opts);
     }).join("");
+
+    groups.push({
+      title: sec.collection ? (sec.collection.title || sec.collection.id) : "",
+      indices
+    });
+
+    if (defined.length === 0) {
+      html += `<div class="grid">${frames}</div>`;
+      return;
+    }
 
     const head = sec.collection
       ? `<header class="collection-head">
@@ -250,33 +269,186 @@ function renderGallery(photos, collections, dateFormat) {
   });
 
   host.innerHTML = html;
-  return order;
+  hideOverlayWhereStampShows(host);
+  return { order, groups };
 }
 
-function setupLightbox(orderedPhotos, dateFormat, enabled) {
-  const lb = document.getElementById("lightbox");
-  if (!lb) return;
-  if (!enabled) return;
+// The tile's width ÷ height from the photo-shape setting, or null for
+// "original proportions", where the whole photo — stamp included — is shown.
+function tileAspect() {
+  const v = getComputedStyle(document.documentElement).getPropertyValue("--frame-aspect").trim();
+  const m = /^([\d.]+)\s*\/\s*([\d.]+)$/.exec(v);
+  return m ? Number(m[1]) / Number(m[2]) : null;
+}
 
-  const lbImg = document.getElementById("lightbox-img");
-  const lbCaption = document.getElementById("lightbox-caption");
+// A tile whose shape is within a few percent of the photo's own crops almost
+// nothing, so the stamped corner is visible and a second notice would double it.
+function hideOverlayWhereStampShows(host) {
+  const tile = tileAspect();
+  host.querySelectorAll(".frame[data-stamped]").forEach(frame => {
+    const img = frame.querySelector("img");
+    const check = () => {
+      if (!img.naturalWidth) return;
+      const own = img.naturalWidth / img.naturalHeight;
+      const stampShows = tile === null || Math.abs(own - tile) / tile < 0.04;
+      frame.classList.toggle("stamp-visible", stampShows);
+    };
+    if (img.complete) check();
+    else img.addEventListener("load", check, { once: true });
+  });
+}
+
+// Right-click "Save image", dragging a photo out to the desktop, and the
+// long-press save sheet on phones are all switched off for photos. This only
+// slows casual copying — the stamp in the file is what actually travels.
+function protectPhotos() {
+  const isPhoto = el => el instanceof Element && el.closest(".frame, .lightbox-stage");
+  document.addEventListener("contextmenu", e => { if (isPhoto(e.target)) e.preventDefault(); });
+  document.addEventListener("dragstart", e => { if (isPhoto(e.target)) e.preventDefault(); });
+}
+
+// Arrows, arrow keys and swipes move through the collection the opened photo
+// belongs to and stop at either end; they never cross into another collection.
+// The arrow pointing past an end is greyed out rather than hidden, so the
+// buttons stay put while you click through.
+function setupLightbox(order, groups, opts) {
+  const lb = document.getElementById("lightbox");
+  if (!lb || !opts.enabled) return;
+
+  const img = document.getElementById("lightbox-img");
+  const caption = document.getElementById("lightbox-caption");
+  const counter = document.getElementById("lightbox-counter");
+  const prev = document.getElementById("lightbox-prev");
+  const next = document.getElementById("lightbox-next");
+  const closeBtn = document.getElementById("lightbox-close");
+  const copy = document.getElementById("lightbox-copyright");
+
+  if (copy) {
+    copy.textContent = opts.copyright || "";
+    copy.hidden = !opts.copyright;
+  }
+
+  const groupOf = [];
+  groups.forEach((g, gi) => g.indices.forEach(i => { groupOf[i] = gi; }));
+
+  let current = -1;
+  let returnFocus = null;
+
+  const isOpen = () => lb.classList.contains("open");
+
+  // The photo `delta` steps away within the same collection, or null past an end.
+  function neighbour(i, delta) {
+    const ids = groups[groupOf[i]].indices;
+    const target = ids.indexOf(i) + delta;
+    return target >= 0 && target < ids.length ? ids[target] : null;
+  }
+
+  // Never leave focus on an arrow that just became disabled — the keyboard
+  // user would otherwise be dropped back to the top of the page.
+  function focusUsableControl() {
+    const target = [next, prev].find(b => !b.hidden && !b.disabled) || closeBtn;
+    target.focus({ preventScroll: true });
+  }
+
+  function show(i) {
+    const p = order[i];
+    if (!p) return;
+    current = i;
+
+    const g = groups[groupOf[i]];
+    const pos = g.indices.indexOf(i);
+    const multi = g.indices.length > 1;
+
+    img.src = imagePath(p.file);
+    img.alt = p.caption || "";
+    // Here the whole photo is shown, so a stamped one already displays its notice.
+    if (copy) copy.hidden = !opts.copyright || p.stamped === true;
+    caption.textContent = [p.caption, metaLine(p, opts.dateFormat)].filter(Boolean).join(" — ");
+    counter.textContent = multi
+      ? [g.title, `${pos + 1} / ${g.indices.length}`].filter(Boolean).join(" · ")
+      : g.title;
+    const focusedArrow = document.activeElement === prev || document.activeElement === next
+      ? document.activeElement : null;
+
+    prev.hidden = !multi;
+    next.hidden = !multi;
+    prev.disabled = pos === 0;
+    next.disabled = pos === g.indices.length - 1;
+
+    if (focusedArrow && focusedArrow.disabled) focusUsableControl();
+
+    // Fetch the neighbours now so stepping through doesn't wait on the network.
+    [-1, 1].forEach(d => {
+      const n = neighbour(i, d);
+      if (n !== null) new Image().src = imagePath(order[n].file);
+    });
+  }
+
+  function open(i) {
+    returnFocus = document.activeElement;
+    show(i);
+    lb.classList.add("open");
+    document.documentElement.classList.add("lightbox-open");
+    focusUsableControl();
+  }
+
+  function close() {
+    if (!isOpen()) return;
+    lb.classList.remove("open");
+    document.documentElement.classList.remove("lightbox-open");
+    current = -1;
+    if (returnFocus && typeof returnFocus.focus === "function") returnFocus.focus({ preventScroll: true });
+  }
+
+  const step = delta => {
+    if (current < 0) return;
+    const n = neighbour(current, delta);
+    if (n !== null) show(n);
+  };
 
   document.querySelectorAll(".frame").forEach(frame => {
-    frame.addEventListener("click", () => {
-      const p = orderedPhotos[Number(frame.getAttribute("data-index"))];
-      if (!p) return;
-      lbImg.src = imagePath(p.file);
-      lbImg.alt = p.caption || "";
-      const meta = metaLine(p, dateFormat);
-      lbCaption.textContent = [p.caption, meta].filter(Boolean).join(" — ");
-      lb.classList.add("open");
-    });
+    frame.addEventListener("click", () => open(Number(frame.dataset.index)));
   });
 
-  const close = () => lb.classList.remove("open");
-  document.getElementById("lightbox-close")?.addEventListener("click", close);
+  prev.addEventListener("click", () => step(-1));
+  next.addEventListener("click", () => step(1));
+  closeBtn.addEventListener("click", close);
   lb.addEventListener("click", e => { if (e.target === lb) close(); });
-  document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+
+  document.addEventListener("keydown", e => {
+    if (!isOpen()) return;
+    if (e.key === "Escape") close();
+    else if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
+    else if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
+  });
+
+  // A mostly-horizontal swipe of 50px or more steps; anything else is ignored
+  // so a vertical drag or a tap doesn't change the photo.
+  let startX = null;
+  let startY = null;
+  lb.addEventListener("touchstart", e => {
+    if (e.touches.length !== 1) { startX = null; return; }
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  lb.addEventListener("touchend", e => {
+    if (startX === null) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - startX;
+    const dy = t.clientY - startY;
+    startX = null;
+    if (Math.abs(dx) >= 50 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+  }, { passive: true });
+}
+
+// Empty when switched off. Without custom text it falls back to "© <name>",
+// so it follows the site name if that changes.
+function copyrightText(config) {
+  if (get(config, "theme.style.showCopyright", true) === false) return "";
+  const custom = String(get(config, "site.copyright", "")).trim();
+  if (custom) return custom;
+  const name = get(config, "site.name", "");
+  return name ? `© ${name}` : "";
 }
 
 // ---------- about / contact ----------
@@ -360,9 +532,14 @@ function escapeAttr(str) {
     renderNav(pages);
 
     if (page === "gallery") {
-      const dateFormat = get(config, "theme.text.dateFormat", "monthYear");
-      const ordered = renderGallery(config.photos, config.collections, dateFormat);
-      setupLightbox(ordered, dateFormat, get(config, "theme.style.lightbox", true) !== false);
+      const opts = {
+        dateFormat: get(config, "theme.text.dateFormat", "monthYear"),
+        copyright: copyrightText(config),
+        enabled: get(config, "theme.style.lightbox", true) !== false
+      };
+      const { order, groups } = renderGallery(config.photos, config.collections, opts);
+      setupLightbox(order, groups, opts);
+      protectPhotos();
     }
 
     // A disabled about/contact page still exists as a file, so send visitors home

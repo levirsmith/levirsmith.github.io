@@ -89,6 +89,16 @@
           <input id="f-homeLabel" type="text">
         </label>
       </div>
+      <div class="row">
+        <label>Copyright notice <span class="unit">bottom-right of each photo; blank uses your name</span>
+          <input id="f-copyright" type="text" placeholder="© levi smith">
+        </label>
+        <label class="check"><input id="f-show-copyright" type="checkbox"> Show the notice on the site</label>
+      </div>
+      <div class="row">
+        <label class="check"><input id="f-stamp-copyright" type="checkbox"> Stamp the notice into new uploads</label>
+        <p class="hint hint-inline">Stamped photos keep the notice when saved or copied. The stamp is part of the image, so changing the text later won't update photos already uploaded.</p>
+      </div>
     </section>
 
     <!-- COLORS -->
@@ -329,9 +339,16 @@
       <ul id="photo-list" class="photo-list"></ul>
     </section>
 
+    <!-- PRIVACY -->
+    <section class="panel">
+      <h2>11. Privacy</h2>
+      <p class="hint">When on, every page, photo and file asks for the password before anything is sent. The password itself is never stored here or in the repo. It's the <code>SITE_PASSWORD</code> secret in your Cloudflare Pages settings, so change it there. This only works once the site is hosted on Cloudflare Pages; on GitHub Pages this switch does nothing.</p>
+      <label class="check"><input id="f-password-lock" type="checkbox"> Require a password to view the site</label>
+    </section>
+
     <!-- PUBLISH -->
     <section class="panel panel-publish">
-      <h2>11. Publish</h2>
+      <h2>12. Publish</h2>
       <button id="btn-publish" class="btn btn-primary btn-large">Publish changes</button>
       <div id="publish-log" class="log"></div>
     </section>

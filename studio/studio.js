@@ -20,7 +20,7 @@ const $ = sel => document.querySelector(sel);
 const DEFAULTS = {
   site: {
     name: "", tagline: "", galleryTitle: "", galleryNote: "",
-    enterLabel: "", homeLabel: ""
+    enterLabel: "", homeLabel: "", copyright: ""
   },
   theme: {
     colors: { background: "#f6f4ee", text: "#1c1b18", muted: "#8a8577", accent: "#5c6b52", border: "#dcd8cb" },
@@ -43,9 +43,11 @@ const DEFAULTS = {
     style: {
       radiusGrid: 12, radiusFrame: 8, radiusImage: 8, borderWidth: 1,
       hoverZoom: 1.04, transitionSpeed: 0.6, cornerSize: 18, showCorners: true,
-      captionMode: "hover", showNumbers: true, lightbox: true
+      captionMode: "hover", showNumbers: true, lightbox: true, showCopyright: true
     }
   },
+  uploads: { stampCopyright: true },
+  access: { passwordLock: false },
   pages: {
     about: { enabled: false, navLabel: "about", title: "about", body: "", portrait: "" },
     contact: { enabled: false, navLabel: "contact", title: "contact", intro: "", email: "", links: [] }
@@ -62,6 +64,10 @@ const BINDINGS = [
   ["f-galleryNote", "site.galleryNote", "text"],
   ["f-enterLabel", "site.enterLabel", "text"],
   ["f-homeLabel", "site.homeLabel", "text"],
+  ["f-copyright", "site.copyright", "text"],
+  ["f-show-copyright", "theme.style.showCopyright", "bool"],
+  ["f-stamp-copyright", "uploads.stampCopyright", "bool"],
+  ["f-password-lock", "access.passwordLock", "bool"],
 
   ["c-background", "theme.colors.background", "text"],
   ["c-text", "theme.colors.text", "text"],
@@ -280,6 +286,7 @@ async function connect() {
 
     populateFontControls();
     populateForm();
+    refreshCopyrightPlaceholder();
     renderCollectionList();
     renderLinkList();
     renderPhotoList();
@@ -650,34 +657,42 @@ function renderPhotoList() {
 }
 
 // Rows only become draggable while the handle is held, so clicking into a
-// caption or date field doesn't start a drag.
+// caption or date field doesn't start a drag. Pointer Events (rather than
+// HTML5 native drag-and-drop) so this works with a finger on a phone, not
+// just a mouse — no browser fires dragstart/dragover from touch input.
 function setupDragReorder(ul) {
   let dragEl = null;
+  let pointerId = null;
 
   ul.querySelectorAll(".photo-item").forEach(item => {
     const handle = item.querySelector(".handle");
 
-    handle.addEventListener("mousedown", () => { item.draggable = true; });
-    handle.addEventListener("touchstart", () => { item.draggable = true; }, { passive: true });
-
-    item.addEventListener("dragstart", () => {
+    handle.addEventListener("pointerdown", e => {
       dragEl = item;
+      pointerId = e.pointerId;
+      handle.setPointerCapture(pointerId);
       item.classList.add("dragging");
-    });
-    item.addEventListener("dragend", () => {
-      item.classList.remove("dragging");
-      item.draggable = false;
-      dragEl = null;
-      commitDomOrder(ul);
-    });
-    item.addEventListener("dragover", e => {
       e.preventDefault();
-      if (!dragEl) return;
-      const after = getDragAfterElement(ul, e.clientY);
-      if (after == null) ul.appendChild(dragEl);
-      else ul.insertBefore(dragEl, after);
     });
   });
+
+  ul.addEventListener("pointermove", e => {
+    if (!dragEl || e.pointerId !== pointerId) return;
+    e.preventDefault();
+    const after = getDragAfterElement(ul, e.clientY);
+    if (after == null) ul.appendChild(dragEl);
+    else ul.insertBefore(dragEl, after);
+  });
+
+  const endDrag = e => {
+    if (!dragEl || e.pointerId !== pointerId) return;
+    dragEl.classList.remove("dragging");
+    dragEl = null;
+    pointerId = null;
+    commitDomOrder(ul);
+  };
+  ul.addEventListener("pointerup", endDrag);
+  ul.addEventListener("pointercancel", endDrag);
 }
 
 function getDragAfterElement(container, y) {
@@ -701,9 +716,12 @@ function commitDomOrder(ul) {
 // ---------- upload ----------
 
 function handleFiles(fileList) {
+  // Read once per batch so every file dropped together is treated the same.
+  const stampText = $("#f-stamp-copyright").checked ? currentCopyrightText() : "";
+
   [...fileList].forEach(async file => {
     if (!file.type.startsWith("image/")) return;
-    const { blob, dataUrl } = await compressImage(file);
+    const { blob, dataUrl } = await compressImage(file, stampText);
     const filename = uniqueFilename(file.name);
     const buffer = await blob.arrayBuffer();
     photos.push({
@@ -712,12 +730,43 @@ function handleFiles(fileList) {
       collection: "",
       date: "",
       location: "",
+      // Tells the site the notice is already in the pixels, so it doesn't add a
+      // second one where the whole photo is visible.
+      stamped: stampText ? true : "",
       status: "new",
       dataUrl,
       _base64: bufferToBase64(buffer)
     });
     renderPhotoList();
   });
+}
+
+// What the notice says right now: the custom text, else "© <name>".
+function currentCopyrightText() {
+  const custom = $("#f-copyright").value.trim();
+  const name = $("#f-name").value.trim();
+  return custom || (name ? `© ${name}` : "");
+}
+
+// Draws the notice into the image itself, bottom-right, sized to the photo so it
+// reads the same on a 1000px or a 2200px file. White with a soft shadow, matching
+// the on-page notice. A plain system font is used on purpose: it needs no
+// download, so the stamp can never be drawn before a webfont arrives.
+function stampCopyright(ctx, width, height, text) {
+  if (!text) return;
+  const size = Math.max(12, Math.round(Math.min(width, height) * 0.024));
+  const pad = Math.round(size * 1.15);
+  ctx.save();
+  ctx.font = `500 ${size}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+  if ("letterSpacing" in ctx) ctx.letterSpacing = `${(size * 0.05).toFixed(1)}px`;
+  ctx.textAlign = "right";
+  ctx.textBaseline = "alphabetic";
+  ctx.fillStyle = "rgba(255, 255, 255, 0.88)";
+  ctx.shadowColor = "rgba(0, 0, 0, 0.55)";
+  ctx.shadowBlur = Math.max(2, Math.round(size * 0.3));
+  ctx.shadowOffsetY = Math.max(1, Math.round(size * 0.06));
+  ctx.fillText(text, width - pad, height - pad);
+  ctx.restore();
 }
 
 function baseName(name) {
@@ -736,7 +785,7 @@ function uniqueFilename(original) {
   return name;
 }
 
-function compressImage(file) {
+function compressImage(file, stampText) {
   const MAX_DIM = 2200;
   const QUALITY = 0.85;
   return new Promise((resolve, reject) => {
@@ -757,7 +806,9 @@ function compressImage(file) {
         const canvas = document.createElement("canvas");
         canvas.width = width;
         canvas.height = height;
-        canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        stampCopyright(ctx, width, height, stampText);
         canvas.toBlob(
           blob => resolve({ blob, dataUrl: canvas.toDataURL("image/jpeg", QUALITY) }),
           "image/jpeg",
@@ -900,5 +951,13 @@ document.addEventListener("DOMContentLoaded", () => {
     handleFiles(e.dataTransfer.files);
   });
 
+  $("#f-name").addEventListener("input", refreshCopyrightPlaceholder);
+
   if (creds.token) $("#btn-disconnect").hidden = false;
 });
+
+// A blank copyright field means "© <name>" on the site, so show exactly that.
+function refreshCopyrightPlaceholder() {
+  const name = $("#f-name").value.trim();
+  $("#f-copyright").placeholder = name ? `© ${name}` : "© your name";
+}

@@ -77,6 +77,49 @@ the bottom. That single action commits any new/removed photos and the
 updated `config.json` straight to your GitHub repo, and the host rebuilds
 automatically (usually live within a minute).
 
+## Copyright protection
+
+- **Stamped into the photo.** With "Stamp the notice into new uploads" on,
+  the studio draws the notice into the image's pixels before uploading, so a
+  saved or copied file keeps it. Stamped photos are marked `"stamped": true`
+  in `config.json`. Changing the notice text later doesn't update photos
+  that are already stamped.
+- **On the page.** Gallery tiles crop to the photo-shape setting, which
+  usually cuts off the stamped corner, so the site also draws the notice
+  over each tile. Wherever the stamp itself is visible (the enlarged view,
+  or a tile the same shape as the photo), that second notice is left out.
+- **Right-click, drag and long-press saving are blocked on photos.** This
+  slows casual copying, nothing more. Anything shown in a browser can be
+  screenshotted, which is why the stamp is the part that matters.
+
+## Password lock (Cloudflare Pages only)
+
+`functions/_middleware.js` asks for a password before sending any page,
+photo or file. It's controlled by the studio's Privacy switch
+(`access.passwordLock` in `config.json`), and the password is the
+`SITE_PASSWORD` secret in Cloudflare, never stored in the repo.
+
+**It does nothing on GitHub Pages**, which has no way to run code before
+serving a file. While the repo is public, every photo can also be browsed
+on github.com directly. Moving over:
+
+1. In Cloudflare: Workers & Pages → Create → Pages → Connect to Git →
+   pick this repo, branch `main`. Framework preset **None**, build command
+   empty, build output directory left as the repo root.
+2. Before deploying, open "Environment variables", add **`SITE_PASSWORD`**
+   as an encrypted secret with your password, for Production and Preview.
+   (If you add it afterwards, redeploy so it takes effect. Until it's set,
+   the site shows a "no password has been set" page rather than opening up.)
+3. Check the `*.pages.dev` address asks for the password, then add
+   `levirsmith.com` under the project's Custom domains.
+4. Once levirsmith.com is served by Cloudflare: on GitHub, Settings →
+   Pages → unpublish, then Settings → General → change visibility to
+   **Private**. The studio keeps working (it talks to GitHub with your
+   token), and Cloudflare keeps deploying from the private repo.
+
+Signing in lasts 30 days per browser. Visit `/__site-logout` to sign out on
+a shared computer. Changing `SITE_PASSWORD` signs everyone out.
+
 ## Notes
 
 - Every setting has a default that matches the site's original look, so a

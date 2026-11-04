@@ -25,9 +25,15 @@
     <nav class="site-nav" id="site-nav" hidden></nav>
   </main>
 
-  <div class="lightbox" id="lightbox">
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="photo viewer">
+    <p class="lightbox-counter" id="lightbox-counter" aria-live="polite"></p>
     <button class="lightbox-close" id="lightbox-close">close</button>
-    <img id="lightbox-img" alt="">
+    <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="previous photo">&#8592;</button>
+    <figure class="lightbox-stage">
+      <img id="lightbox-img" alt="">
+      <span class="copyright" id="lightbox-copyright" aria-hidden="true"></span>
+    </figure>
+    <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="next photo">&#8594;</button>
     <p class="lightbox-caption" id="lightbox-caption"></p>
   </div>
 
