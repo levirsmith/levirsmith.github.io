@@ -72,6 +72,9 @@ html, body {
 
 .hint a { color: var(--admin-accent); }
 
+/* a hint sitting in a form row beside a control, rather than under a heading */
+.hint-inline { margin: 0; font-size: 0.75rem; align-self: center; }
+
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -364,6 +367,7 @@ input[type="checkbox"] {
   cursor: grab;
   flex-shrink: 0;
   user-select: none;
+  touch-action: none;
 }
 
 .photo-item .handle:active { cursor: grabbing; }

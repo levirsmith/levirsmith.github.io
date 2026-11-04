@@ -99,74 +99,90 @@
       "description": ""
     }
   ],
+  "access": {
+    "passwordLock": true
+  },
   "photos": [
     {
       "file": "176cf019-e9bb-4910-9dd9-91a06d7f31b3_1_105_c.jpg",
       "caption": "black-footed albatross at sunrise",
-      "collection": "midway"
+      "collection": "midway",
+      "stamped": true
     },
     {
       "file": "5d96b1ab-517f-4b9d-a7c6-9e7d32c5d89e_1_105_c.jpg",
       "caption": "laysan albatross colony at sunset",
-      "collection": "midway"
+      "collection": "midway",
+      "stamped": true
     },
     {
       "file": "721f6ef9-9e90-49b6-b80e-adc39941f63c_1_105_c.jpg",
       "caption": "tern chick sleepy on a branch",
-      "collection": "midway"
+      "collection": "midway",
+      "stamped": true
     },
     {
       "file": "b88529b5-d7fe-4452-a8f9-e932657bcf05_1_105_c.jpg",
       "caption": "rainforest frog",
-      "collection": "peru"
+      "collection": "peru",
+      "stamped": true
     },
     {
       "file": "dsc00088.jpg",
       "caption": "davenport, ca",
-      "collection": "elsewhere"
+      "collection": "elsewhere",
+      "stamped": true
     },
     {
       "file": "0f7e58c2-7d53-4699-b828-0fe73b43a124_1_105_c.jpg",
       "caption": "lizard in joshua tree",
-      "collection": "elsewhere"
+      "collection": "elsewhere",
+      "stamped": true
     },
     {
       "file": "a3d98a9b-44bb-4cb8-8255-fee8a029afa2_1_105_c.jpg",
       "caption": "sea otter on the california coast",
-      "collection": "elsewhere"
+      "collection": "elsewhere",
+      "stamped": true
     },
     {
       "file": "3295d02a-f0f6-4cba-95a3-9767e0115b24_1_105_c.jpg",
       "caption": "sea turtle tracks",
-      "collection": "bioko"
+      "collection": "bioko",
+      "stamped": true
     },
     {
       "file": "6286586b-9d34-4993-a808-3763e829204d_1_105_c.jpg",
       "caption": "friendly skink",
-      "collection": "bioko"
+      "collection": "bioko",
+      "stamped": true
     },
     {
       "file": "7f8099c2-02e9-4271-b2d4-a37cb0034e6a_1_105_c.jpg",
       "caption": "chipmunk in colorado",
-      "collection": "elsewhere"
+      "collection": "elsewhere",
+      "stamped": true
     },
     {
       "file": "a35a97e1-4fa7-495c-9e2b-6d97b904de3d_1_105_c.jpg",
       "caption": "hummingbird",
       "collection": "peru",
-      "date": "2019"
+      "date": "2019",
+      "stamped": true
     },
     {
       "file": "6181faf6-1f85-4214-87ba-d6ed96e2acb3_1_105_c.jpg",
       "caption": "vulture amongst the clouds",
       "collection": "peru",
-      "date": "2019"
+      "date": "2019",
+      "stamped": true
     },
     {
       "file": "6d099f59-a8f1-4e38-8ee0-0095edcf78fc_1_201_a.jpg",
       "caption": "green sea turtle",
       "collection": "bioko",
-      "date": "2020"
+      "date": "2020",
+      "stamped": true
     }
   ]
 }
